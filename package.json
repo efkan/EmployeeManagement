@@ -1,7 +1,7 @@
 {
-  "name": "@lit/lit-starter-js",
-  "private": true,
-  "version": "2.0.2",
+  "name": "Employee Management App",
+  "private": false,
+  "version": "0.0.1",
   "description": "A simple web component",
   "main": "my-element.js",
   "module": "my-element.js",
@@ -28,6 +28,7 @@
     "test:watch": "wtr --watch",
     "test:prod": "MODE=prod wtr",
     "test:prod:watch": "MODE=prod wtr --watch",
+    "test:coverage": "wtr --coverage",
     "checksize": "rollup -c ; cat my-element.bundled.js | gzip -9 | wc -c ; rm my-element.bundled.js"
   },
   "keywords": [
@@ -39,13 +40,17 @@
   "author": "Google LLC",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "lit": "^3.2.0"
+    "@mdi/js": "^7.4.47",
+    "@vaadin/router": "^2.0.0",
+    "lit": "^3.2.0",
+    "nanostores": "^1.0.1"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^4.0.0",
     "@babel/eslint-parser": "^7.17.0",
     "@custom-elements-manifest/analyzer": "^0.6.3",
+    "@esm-bundle/chai": "4.3.4-fix.0",
     "@open-wc/testing": "^4.0.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.7",
@@ -53,6 +58,7 @@
     "@web/dev-server": "^0.1.31",
     "@web/dev-server-legacy": "^1.0.0",
     "@web/test-runner": "^0.15.0",
+    "@web/test-runner-coverage-v8": "^0.8.0",
     "@web/test-runner-playwright": "^0.9.0",
     "@webcomponents/webcomponentsjs": "^2.8.0",
     "eslint": "^8.15.0",

@@ -3,7 +3,8 @@
   "extends": ["eslint:recommended"],
   "parser": "@babel/eslint-parser",
   "globals": {
-    "chai": "readonly"
+    "chai": "readonly",
+    "Promise": "readonly"
   },
   "parserOptions": {
     "requireConfigFile": false,

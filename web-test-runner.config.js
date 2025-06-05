@@ -87,16 +87,29 @@ try {
 // https://modern-web.dev/docs/test-runner/cli-and-configuration/
 export default {
   rootDir: '.',
-  files: ['./test/**/*_test.js'],
+  files: ['./test/**/*.test.js'],
   nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
   preserveSymlinks: true,
   browsers: commandLineBrowsers ?? Object.values(browsers),
   testFramework: {
     // https://mochajs.org/api/mocha
     config: {
-      ui: 'tdd',
-      timeout: '60000',
+      ui: 'bdd',
+      timeout: '10000',
     },
+  },
+  coverage: true,
+  coverageConfig: {
+    threshold: {
+      statements: 85,
+      branches: 85,
+      functions: 85,
+      lines: 85,
+    },
+    include: ['src/**/*.js'],
+    exclude: ['src/test/**'],
+    reportDir: 'coverage',
+    reporters: ['html', 'json', 'text-summary'],
   },
   plugins: [
     // Detect browsers without modules (e.g. IE11) and transform to SystemJS

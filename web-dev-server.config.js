@@ -12,8 +12,11 @@ if (!['dev', 'prod'].includes(mode)) {
 }
 
 export default {
-  nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
-  preserveSymlinks: true,
+  nodeResolve: true,
+  preserveSymlinks: false,
+  // Enable history API fallback for client-side routing
+  appIndex: 'index.html',
+  port: 8000,
   plugins: [
     legacyPlugin({
       polyfills: {
@@ -21,5 +24,47 @@ export default {
         webcomponents: false,
       },
     }),
+  ],
+  middleware: [
+    function polyfillsMiddleware(context, next) {
+      if (context.path === '/' || context.path.endsWith('.html')) {
+        return next();
+      }
+      if (context.path.endsWith('.js')) {
+        // Inject comprehensive polyfills for Node.js globals
+        context.set('Content-Type', 'application/javascript');
+        const originalBody = context.body || '';
+        if (
+          typeof originalBody === 'string' &&
+          (originalBody.includes('process') || originalBody.includes('global'))
+        ) {
+          context.body = `
+// Polyfills for Node.js globals in browser environment
+if (typeof global === 'undefined') {
+  window.global = window.globalThis || window;
+}
+if (typeof process === 'undefined') {
+  window.process = {
+    env: {},
+    browser: true,
+    version: '16.0.0',
+    platform: 'browser',
+    argv: [],
+    cwd: function() { return '/'; },
+    nextTick: function(callback) {
+      setTimeout(callback, 0);
+    },
+    stdout: { write: function() {} },
+    stderr: { write: function() {} }
+  };
+}
+if (typeof Buffer === 'undefined') {
+  window.Buffer = { isBuffer: function() { return false; } };
+}
+${originalBody}`;
+        }
+      }
+      return next();
+    },
   ],
 };

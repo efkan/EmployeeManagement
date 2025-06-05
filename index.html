@@ -1,11 +1,51 @@
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Lit Starter Kit</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Management System</title>
+    <meta name="description" content="Employee Management System built with LitElement" />
+    
+    <!-- Critical polyfills that must be loaded before any ES modules -->
+    <script>
+      // Polyfill global object for browser compatibility
+      if (typeof global === 'undefined') {
+        window.global = window.globalThis || window;
+      }
+
+      // Comprehensive process object polyfill for Node.js compatibility
+      if (typeof process === 'undefined') {
+        window.process = {
+          env: {},
+          browser: true,
+          version: '16.0.0',
+          platform: 'browser',
+          argv: [],
+          cwd: function () { return '/'; },
+          nextTick: function (callback) {
+            setTimeout(callback, 0);
+          },
+          stdout: { write: function () { } },
+          stderr: { write: function () { } }
+        };
+      }
+
+      // Additional Node.js polyfills that might be needed
+      if (typeof Buffer === 'undefined') {
+        window.Buffer = { isBuffer: function () { return false; } };
+      }
+    </script>
+    
+    <!-- Import global styles -->
+    <link rel="stylesheet" href="/src/styles/global.css" />
+    <link rel="stylesheet" href="/src/styles/responsive.css" />
   </head>
   <body>
-    <a href="/dev/index.html">Component Demo</a>
+    <!-- Main application component -->
+    <employee-app></employee-app>
+    
+    <!-- Import the main application -->
+    <script type="module" src="/src/employee-app.js"></script>
   </body>
 </html>
